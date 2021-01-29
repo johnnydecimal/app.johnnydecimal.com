@@ -1,6 +1,6 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useMachine } from "@xstate/react";
-import { Router } from "@reach/router";
+import { Router, RouteComponentProps } from "@reach/router";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import signInStateMachine from "./signInState.machine";
@@ -8,7 +8,7 @@ import signInStateMachine from "./signInState.machine";
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import FourOhFour from "../FourOhFour";
 // import JDSignedIn from "./JDSignedIn";
-// import SignInForm from "./SignInForm";
+import SignInForm from "../SignInForm";
 // import SignUpForm from "./SignUpForm";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -16,14 +16,11 @@ const JDSignedIn = ({ signInStateService }: { signInStateService: any }) => (
   <div>JDSignedIn</div>
 );
 
-interface SignInFormProps {
+type SignUpFormProps = RouteComponentProps & {
   path: string;
   signInStateService: any;
-}
-const SignInForm = ({ path, signInStateService }: SignInFormProps) => (
-  <div>SignInForm</div>
-);
-const SignUpForm = ({ path, signInStateService }: SignInFormProps) => (
+};
+const SignUpForm = ({ path, signInStateService }: SignUpFormProps) => (
   <div>SignUpForm</div>
 );
 
@@ -33,7 +30,7 @@ const SignUpForm = ({ path, signInStateService }: SignInFormProps) => (
  * The topmost component in the app.
  *
  * The first thing we do on a page load is to determine, by way of our
- * `signInStateMachine`, whether the user is signed in.
+ * `signInStateMachine`, which calls Userbase, whether the user is signed in.
  *
  * Depending on the machine's state, we render:
  * - An initialisation screen.
