@@ -13,15 +13,15 @@ import SignInForm from "../SignInForm";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const JDSignedIn = ({ signInStateService }: { signInStateService: any }) => (
-  <div className="m-16 bg-red-100 font-jdcode">JDSignedIn</div>
+	<div className="m-16 bg-red-100 font-jdcode">JDSignedIn</div>
 );
 
 type SignUpFormProps = RouteComponentProps & {
-  path: string;
-  signInStateService: any;
+	path: string;
+	signInStateService: any;
 };
 const SignUpForm = ({ path, signInStateService }: SignUpFormProps) => (
-  <div>SignUpForm</div>
+	<div>SignUpForm</div>
 );
 
 /**
@@ -47,45 +47,45 @@ const SignUpForm = ({ path, signInStateService }: SignUpFormProps) => (
  *   screen.
  */
 const SignInRouter = () => {
-  const [signInState, signInStateSend, signInStateService] = useMachine(
-    signInStateMachine
-  );
+	const [signInState, signInStateSend, signInStateService] = useMachine(
+		signInStateMachine
+	);
 
-  switch (true) {
-    case signInState.matches("init"):
-      // TODO: Pretty this 'Initialising' view up
-      return <div className="text-3xl text-center text-red-600">INIT</div>;
+	switch (true) {
+		case signInState.matches("init"):
+			// TODO: Pretty this 'Initialising' view up
+			return <div className="text-3xl text-center text-red-600">INIT</div>;
 
-    case signInState.matches("signedIn"):
-      return <JDSignedIn signInStateService={signInStateService} />;
+		case signInState.matches("signedIn"):
+			return <JDSignedIn signInStateService={signInStateService} />;
 
-    case signInState.matches("notSignedIn"):
-      return (
-        <Router>
-          <SignInForm path="/" signInStateService={signInStateService} />
-          <SignUpForm path="signup" signInStateService={signInStateService} />
-          <FourOhFour default={true} signInState={signInState} />
-        </Router>
-      );
+		case signInState.matches("notSignedIn"):
+			return (
+				<Router>
+					<SignInForm path="/" signInStateService={signInStateService} />
+					<SignUpForm path="signup" signInStateService={signInStateService} />
+					<FourOhFour default={true} signInState={signInState} />
+				</Router>
+			);
 
-    case signInState.matches("error"):
-      // TODO: Pretty this up
-      // TODO: You ended up here once. No idea why. Fix.
-      return (
-        <div className="m-12 text-6xl text-red-600">
-          ERROR! End-of-state. Done. Fubar.
-        </div>
-      );
+		case signInState.matches("error"):
+			// TODO: Pretty this up
+			// TODO: You ended up here once. No idea why. Fix.
+			return (
+				<div className="m-12 text-6xl text-red-600">
+					ERROR! End-of-state. Done. Fubar.
+				</div>
+			);
 
-    /**
-     * All other conditions are captured here -- the `trying...` states and
-     * anything else not specifically handled above. This works out to be a much
-     * nicer way of handling this -- when this was an `if...then` situation you
-     * saw 404s when signing out, but now this captures those little edge cases.
-     */
-    default:
-      return <div>doing a network thing ... standby one</div>;
-  }
+		/**
+		 * All other conditions are captured here -- the `trying...` states and
+		 * anything else not specifically handled above. This works out to be a much
+		 * nicer way of handling this -- when this was an `if...then` situation you
+		 * saw 404s when signing out, but now this captures those little edge cases.
+		 */
+		default:
+			return <div>doing a network thing ... standby one</div>;
+	}
 };
 
 export default SignInRouter;

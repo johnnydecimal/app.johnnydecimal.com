@@ -6,11 +6,11 @@ import SignInRouter from "./components/SignInRouter";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 function App() {
-  return (
-    <React.StrictMode>
-      <SignInRouter />
-    </React.StrictMode>
-  );
+	return (
+		<React.StrictMode>
+			<SignInRouter />
+		</React.StrictMode>
+	);
 }
 
 export default App;
