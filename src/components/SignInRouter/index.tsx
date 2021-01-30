@@ -13,7 +13,7 @@ import SignInForm from "../SignInForm";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const JDSignedIn = ({ signInStateService }: { signInStateService: any }) => (
-	<div className="m-16 bg-red-100 font-jdcode">JDSignedIn</div>
+	<div className="">JDSignedIn</div>
 );
 
 type SignUpFormProps = RouteComponentProps & {
