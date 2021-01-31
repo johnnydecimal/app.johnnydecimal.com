@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useMachine } from "@xstate/react";
 import { Router, RouteComponentProps } from "@reach/router";
@@ -6,26 +8,11 @@ import { Router, RouteComponentProps } from "@reach/router";
 import signInStateMachine from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
-import FourOhFour from "../FourOhFour";
-// import JDSignedIn from "./JDSignedIn";
-import SignInForm from "../SignInForm";
-// import SignUpForm from "./SignUpForm";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const JDSignedIn = ({ signInStateService }: { signInStateService: any }) => (
-	<div className="">JDSignedIn</div>
-);
-
-type SignUpFormProps = RouteComponentProps & {
-	path: string;
-	signInStateService: any;
-};
-const SignUpForm = ({ path, signInStateService }: SignUpFormProps) => (
-	<div>SignUpForm</div>
-);
 
 /**
- * # `SignInRouter`
+ * # `SignInStateRouter`
  *
  * The topmost component in the app.
  *
@@ -46,7 +33,7 @@ const SignUpForm = ({ path, signInStateService }: SignUpFormProps) => (
  *   states, handled by the `default` condition, render a 'please hold' type
  *   screen.
  */
-const SignInRouter = () => {
+const SignInStateRouter = () => {
 	const [signInState, signInStateSend, signInStateService] = useMachine(
 		signInStateMachine
 	);
@@ -57,7 +44,7 @@ const SignInRouter = () => {
 			return <div className="text-3xl text-center text-red-600">INIT</div>;
 
 		case signInState.matches("signedIn"):
-			return <JDSignedIn signInStateService={signInStateService} />;
+			return <div>Signed in</div>;
 
 		case signInState.matches("notSignedIn"):
 			return (
@@ -69,7 +56,6 @@ const SignInRouter = () => {
 			);
 
 		case signInState.matches("error"):
-			// TODO: Pretty this up
 			// TODO: You ended up here once. No idea why. Fix.
 			return (
 				<div className="m-12 text-6xl text-red-600">
@@ -88,4 +74,4 @@ const SignInRouter = () => {
 	}
 };
 
-export default SignInRouter;
+export default SignInStateRouter;

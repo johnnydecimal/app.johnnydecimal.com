@@ -2,17 +2,15 @@
 import React from "react";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
-import SignInRouter from "./components/SignInRouter";
-import VAppWrapper from "./components/VAppWrapper";
+import SignInStateRouter from "components/SignInStateRouter";
+import LayoutAppWrapper from "components/Layout/AppWrapper";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 function App() {
 	return (
-		<React.StrictMode>
-			<VAppWrapper>
-				<SignInRouter />
-			</VAppWrapper>
-		</React.StrictMode>
+		<LayoutAppWrapper>
+			<SignInStateRouter />
+		</LayoutAppWrapper>
 	);
 }
 
