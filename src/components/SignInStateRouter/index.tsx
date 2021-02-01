@@ -8,6 +8,7 @@ import { Router, RouteComponentProps } from "@reach/router";
 import signInStateMachine from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
+import WaitOne from "components/WaitOne";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -44,15 +45,17 @@ const SignInStateRouter = () => {
 			return <div className="text-3xl text-center text-red-600">INIT</div>;
 
 		case signInState.matches("signedIn"):
-			return <div>Signed in</div>;
+			// return <div>Signed in</div>;
+			return <WaitOne />;
 
 		case signInState.matches("notSignedIn"):
 			return (
-				<Router>
-					<SignInForm path="/" signInStateService={signInStateService} />
-					<SignUpForm path="signup" signInStateService={signInStateService} />
-					<FourOhFour default={true} signInState={signInState} />
-				</Router>
+				<WaitOne />
+				// <Router>
+				// 	<SignInForm path="/" signInStateService={signInStateService} />
+				// 	<SignUpForm path="signup" signInStateService={signInStateService} />
+				// 	<FourOhFour default={true} signInState={signInState} />
+				// </Router>
 			);
 
 		case signInState.matches("error"):

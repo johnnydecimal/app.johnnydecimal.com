@@ -584,7 +584,8 @@ video {
 }
 
 body {
-  background-color: darkslategray;
+  background-color: #fbfbfd;
+  color: #040404;
 }
 
 .space-y-0 > :not([hidden]) ~ :not([hidden]) {
