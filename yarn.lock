@@ -11497,6 +11497,11 @@ vfile-location@^3.2.0:
   resolved "https://registry.yarnpkg.com/vfile-location/-/vfile-location-3.2.0.tgz#d8e41fbcbd406063669ebf6c33d56ae8721d0f3c"
   integrity sha512-aLEIZKv/oxuCDZ8lkJGhuhztf/BW4M+iHdCwglA/eWc+vtuRFJj8EtgceYFX4LRjOhCAAiNHsKGssC6onJ+jbA==
 
+vh-check@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/vh-check/-/vh-check-2.0.5.tgz#1b70610461e9776176f23d172daae3c4761aed09"
+  integrity sha512-vHtIYWt9uLl2P2tLlatVpMwv9+ezuJCtMNjUVIpzd5Pa/dJXN8AtqkKmVRcNSlmXyCjkCkbMQX/Vs9axmdlfgg==
+
 vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
