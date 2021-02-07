@@ -4,7 +4,7 @@ import { Story } from "@storybook/react/types-6-0";
 import AppHeader from ".";
 
 export default {
-	title: "AppHeader",
+	title: "Layout/AppHeader",
 	component: AppHeader,
 };
 

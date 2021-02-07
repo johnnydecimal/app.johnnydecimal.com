@@ -9,6 +9,9 @@ import signInStateMachine from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import WaitOne from "components/WaitOne";
+import LayoutAppWrapper from "components/Layout/AppWrapper";
+import AppHeader from "components/Layout/AppHeader";
+import SignInForm from "components/SignIn/SignInForm";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -49,14 +52,17 @@ const SignInStateRouter = () => {
 			return <WaitOne />;
 
 		case signInState.matches("notSignedIn"):
+			console.debug("signInState: notSignedIn");
 			return (
-				<WaitOne />
-				// <Router>
-				// 	<SignInForm path="/" signInStateService={signInStateService} />
-				// 	<SignUpForm path="signup" signInStateService={signInStateService} />
-				// 	<FourOhFour default={true} signInState={signInState} />
-				// </Router>
+				<LayoutAppWrapper>
+					<AppHeader title="Sign in" />
+					<SignInForm />
+				</LayoutAppWrapper>
 			);
+
+		/* <SignInForm path="/" signInStateService={signInStateService} />
+			<SignUpForm path="signup" signInStateService={signInStateService} />
+			<FourOhFour default={true} signInState={signInState} /> */
 
 		case signInState.matches("error"):
 			// TODO: You ended up here once. No idea why. Fix.

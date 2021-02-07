@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import React from "react";
 
@@ -5,14 +7,16 @@ import React from "react";
 import SignInStateRouter from "components/SignInStateRouter";
 import LayoutAppWrapper from "components/Layout/AppWrapper";
 import { Button } from "stories/Button";
+import { Router } from "@reach/router";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 function App() {
 	return (
-		<LayoutAppWrapper>
-			<SignInStateRouter />
-			<Button label="Jeez Louise, a button!" />
-		</LayoutAppWrapper>
+		<Router>
+			<LayoutAppWrapper default>
+				<SignInStateRouter default />
+			</LayoutAppWrapper>
+		</Router>
 	);
 }
 
