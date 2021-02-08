@@ -5,18 +5,16 @@ import { useForm } from "react-hook-form";
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 type TSignInFormInputs = {
 	password: string;
-	signInState: "notSignedIn" | "tryingSignIn" | "error";
-	signInStateSend: (args: any) => void; // TODO: improve this typing
-	userbaseError?: string | null;
 	username: string;
 };
 
+type TSignInFormProps = {
+	signInState: unknown;
+	signInStateSend: (args: any) => void; // TODO: improve this typing
+};
+
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const SignInForm = ({
-	signInState,
-	signInStateSend,
-	userbaseError,
-}: TSignInFormInputs) => {
+const SignInForm = ({ signInState, signInStateSend }: TSignInFormProps) => {
 	console.debug(signInState);
 	const {
 		register,
@@ -53,9 +51,10 @@ const SignInForm = ({
 				type="password"
 			/>
 
+			{/* TODO: feed the actual error in here */}
 			{signInState === "error" && (
 				<div className="p-2 my-2 text-sm text-red-700 border-2 border-red-700">
-					{userbaseError}
+					ERROR
 				</div>
 			)}
 

@@ -1,18 +1,17 @@
-// @ts-nocheck
-
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useMachine } from "@xstate/react";
-import { Router, RouteComponentProps, useLocation } from "@reach/router";
+import { Link, useLocation } from "@reach/router";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import signInStateMachine from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import WaitOne from "components/WaitOne";
-import LayoutAppWrapper from "components/Layout/AppWrapper";
 import AppHeader from "components/Layout/AppHeader";
 import SignInForm from "components/SignIn/SignInForm";
+import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
+import App from "App";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -54,8 +53,30 @@ const SignInStateRouter = () => {
 			);
 
 		case signInState.matches("signedIn"):
-			// return <div>Signed in</div>;
-			return <WaitOne />;
+			switch (location.pathname) {
+				case "/":
+					return (
+						<>
+							<AppHeader title="The app" />
+							<div>This is the app now</div>
+							<Link to="/account">Your account</Link>
+						</>
+					);
+				case "/account":
+					return (
+						<>
+							<AppHeader title="Account" />
+							<div>Your account page</div>
+						</>
+					);
+				default:
+					return (
+						<>
+							<AppHeader title="404 :-(" />
+							<FourOhFour signInState={signInState} />
+						</>
+					);
+			}
 
 		case signInState.matches("notSignedIn"):
 			switch (location.pathname) {
@@ -64,7 +85,7 @@ const SignInStateRouter = () => {
 						<>
 							<AppHeader title="Sign in" />
 							<SignInForm
-								signInState={signInState.value}
+								signInState={signInState}
 								signInStateSend={signInStateSend}
 							/>
 						</>
@@ -74,7 +95,7 @@ const SignInStateRouter = () => {
 					return (
 						<>
 							<AppHeader title="Sign up" />
-							<SignUpForm />
+							{/* <SignUpForm /> */}
 						</>
 					);
 

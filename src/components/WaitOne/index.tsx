@@ -2,7 +2,7 @@
 import vhCheck from "vh-check";
 const vhCheckResult = vhCheck();
 
-const WaitOne = ({ children }) => (
+const WaitOne = () => (
 	<div
 		className="grid grid-flow-row p-2 text-3xl border border-pink-500"
 		style={{
