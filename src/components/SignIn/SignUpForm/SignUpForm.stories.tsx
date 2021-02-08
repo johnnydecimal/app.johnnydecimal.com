@@ -14,14 +14,24 @@ const Template: Story<ComponentProps<typeof SignUpForm>> = (args) => (
 
 export const Start = Template.bind({});
 Start.args = {
-	state: "start",
+	signInState: {
+		value: "start",
+	},
 };
 export const TryingSignUp = Template.bind({});
 TryingSignUp.args = {
-	state: "tryingSignUp",
+	signInState: {
+		value: "tryingSignUp",
+	},
 };
 export const Failed = Template.bind({});
 Failed.args = {
-	state: "failed",
-	userbaseError: "That username is not available. Try another.",
+	signInState: {
+		context: {
+			error: {
+				message: "Signup failed for reasons x, y, z.",
+			},
+		},
+		value: "notSignedIn",
+	},
 };

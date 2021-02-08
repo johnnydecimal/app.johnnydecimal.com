@@ -15,18 +15,12 @@ const Template: Story<ComponentProps<typeof SignInForm>> = (args) => (
 export const Start = Template.bind({});
 Start.args = {
 	signInState: {
-		context: {
-			error: undefined,
-		},
 		value: "notSignedIn",
 	},
 };
 export const TryingSignIn = Template.bind({});
 TryingSignIn.args = {
 	signInState: {
-		context: {
-			error: undefined,
-		},
 		value: "tryingSignIn",
 	},
 };

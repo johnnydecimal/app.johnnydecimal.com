@@ -1,23 +1,36 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import { FunctionComponent as FC } from "react";
 import { useForm } from "react-hook-form";
+import { StateValue } from "xstate";
+
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+interface ISignUpFormInputs {
+	password: string;
+	username: string;
+}
+
+interface ISignUpState {
+	context?: {
+		error?: {
+			message: string;
+		};
+	};
+	value: StateValue;
+}
+
+interface ISignUpFormProps {
+	signInState: ISignUpState;
+	signInStateSend: (args: any) => void; // TODO: improve this typing
+}
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-type TSignUpFormInputs = {
-	password: string;
-	state: "start" | "tryingSignUp" | "failed";
-	userbaseError?: string | null;
-	username: string;
-};
-
-const SignUpForm = ({ state, userbaseError = null }: TSignUpFormInputs) => {
+const SignUpForm = ({ signInState, signInStateSend }: ISignUpFormProps) => {
 	const {
 		register,
 		handleSubmit,
 		watch,
 		errors,
-	} = useForm<TSignUpFormInputs>();
-	const onSubmit = (data: TSignUpFormInputs) => console.log(data, errors);
+	} = useForm<ISignUpFormInputs>();
+	const onSubmit = (data: ISignUpFormInputs) => console.log(data, errors);
 
 	return (
 		// "handleSubmit" will validate your inputs before invoking "onSubmit"
@@ -27,14 +40,14 @@ const SignUpForm = ({ state, userbaseError = null }: TSignUpFormInputs) => {
 		>
 			<input
 				className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
-				disabled={state === "tryingSignUp"}
+				disabled={signInState.value === "tryingSignUp"}
 				name="username"
 				placeholder="username (not email)"
 				ref={register({ required: true })}
 			/>
 			<input
 				className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
-				disabled={state === "tryingSignUp"}
+				disabled={signInState.value === "tryingSignUp"}
 				name="password"
 				placeholder="password (see warning!)"
 				ref={register({ required: true })}
@@ -68,13 +81,13 @@ const SignUpForm = ({ state, userbaseError = null }: TSignUpFormInputs) => {
 				</p>
 			</div>
 
-			{state === "failed" && (
+			{signInState.value === "failed" && (
 				<div className="p-2 my-2 text-sm text-red-700 border-2 border-red-700">
-					{userbaseError}
+					ERROR
 				</div>
 			)}
 
-			{(state === "start" || state === "failed") && (
+			{(signInState.value === "start" || signInState.value === "failed") && (
 				<button
 					className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
 					style={{ boxShadow: "3px 5px rgba(75, 85, 99)" }}
@@ -83,7 +96,7 @@ const SignUpForm = ({ state, userbaseError = null }: TSignUpFormInputs) => {
 					Sign up
 				</button>
 			)}
-			{state === "tryingSignUp" && (
+			{signInState.value === "tryingSignUp" && (
 				<button
 					className="h-10 px-2 py-1 my-2 text-yellow-600 border-2 border-yellow-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
 					disabled={true}

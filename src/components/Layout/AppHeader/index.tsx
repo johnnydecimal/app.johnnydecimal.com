@@ -1,22 +1,20 @@
+// === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { Link } from "@reach/router";
-import { SignInContext } from "components/SignInStateRouter/signInState.machine";
 
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { SignInContext } from "components/SignInStateRouter/signInState.machine";
 import { TSignInStates } from "components/SignInStateRouter/signInState.machine";
 import { StateValue } from "xstate/lib/types";
 
-// type TAppHeaderProps = {
-// 	signInState: TSignInStates;
-// 	title: string;
-// };
-
-interface IAppHeaderProps {
+export interface IAppHeaderProps {
 	signInState: {
-		context: SignInContext;
+		context?: SignInContext;
 		value: TSignInStates | StateValue;
 	};
 	title: string;
 }
 
+// === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const AppHeader = ({ signInState, title }: IAppHeaderProps) => {
 	switch (signInState.value) {
 		case "notSignedIn" || "try":

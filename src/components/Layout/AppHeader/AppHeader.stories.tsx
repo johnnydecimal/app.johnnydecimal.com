@@ -12,7 +12,10 @@ const Template: Story<ComponentProps<typeof AppHeader>> = (args) => (
 	<AppHeader {...args} />
 );
 
-export const FirstStory = Template.bind({});
-FirstStory.args = {
+export const AccountNotSignedIn = Template.bind({});
+AccountNotSignedIn.args = {
+	signInState: {
+		value: "notSignedIn",
+	},
 	title: "Account",
 };

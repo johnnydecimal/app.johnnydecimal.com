@@ -14,6 +14,7 @@ import FourOhFour from "components/FourOhFour";
 import Account from "components/JDApp/Account";
 import App from "App";
 import Menu from "components/JDApp/Menu";
+import CantGetThereFromHere from "components/CantGetThereFromHere";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -56,6 +57,54 @@ const SignInStateRouter = () => {
 				</>
 			);
 
+		// case signInState.matches("notSignedIn"):
+		case ["notSignedIn", "tryingSignIn", "tryingSignUp"].some(
+			signInState.matches
+		):
+			switch (location.pathname) {
+				case "/":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Sign in" />
+							<SignInForm
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
+						</>
+					);
+				case "/signup":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Sign up" />
+							<SignUpForm
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
+						</>
+					);
+				case "/account":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="No can do!" />
+							<CantGetThereFromHere />
+						</>
+					);
+				case "/waitone":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Wait one..." />
+							<WaitOne />
+						</>
+					);
+				default:
+					return (
+						<>
+							<AppHeader signInState={signInState} title="404 :-(" />
+							<FourOhFour />
+						</>
+					);
+			}
+
 		case signInState.matches("signedIn"):
 			switch (location.pathname) {
 				case "/":
@@ -88,43 +137,6 @@ const SignInStateRouter = () => {
 						</>
 					);
 			}
-
-		// case signInState.matches("notSignedIn"):
-		case ["notSignedIn", "tryingSignIn"].some(signInState.matches):
-			switch (location.pathname) {
-				case "/":
-					return (
-						<>
-							<AppHeader signInState={signInState} title="Sign in" />
-							<SignInForm
-								// TODO: fix me up
-								// @ts-ignore
-								signInState={signInState}
-								signInStateSend={signInStateSend}
-							/>
-						</>
-					);
-
-				case "/signup":
-					return (
-						<>
-							<AppHeader signInState={signInState} title="Sign up" />
-							{/* <SignUpForm /> */}
-						</>
-					);
-
-				default:
-					return (
-						<>
-							<AppHeader signInState={signInState} title="404 :-(" />
-							<FourOhFour />
-						</>
-					);
-			}
-
-		/* <SignInForm path="/" signInStateService={signInStateService} />
-			<SignUpForm path="signup" signInStateService={signInStateService} />
-			<FourOhFour default={true} signInState={signInState} /> */
 
 		case signInState.matches("error"):
 			// TODO: You ended up here once. No idea why. Fix.
