@@ -14,14 +14,14 @@ const Template: Story<ComponentProps<typeof SignInForm>> = (args) => (
 
 export const Start = Template.bind({});
 Start.args = {
-	signInState: "notSignedIn",
+	signInState: { value: "notSignedIn" },
 };
 export const TryingSignIn = Template.bind({});
 TryingSignIn.args = {
-	signInState: "tryingSignIn",
+	signInState: { value: "tryingSignIn" },
 };
 export const Failed = Template.bind({});
 Failed.args = {
-	signInState: "error",
+	signInState: { value: "error" },
 	// userbaseError: "Sign in failed. Try again.",
 };

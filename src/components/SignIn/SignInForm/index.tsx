@@ -8,8 +8,12 @@ type TSignInFormInputs = {
 	username: string;
 };
 
+interface ISignInState {
+	value: string;
+}
+
 type TSignInFormProps = {
-	signInState: unknown;
+	signInState: ISignInState;
 	signInStateSend: (args: any) => void; // TODO: improve this typing
 };
 
@@ -37,14 +41,14 @@ const SignInForm = ({ signInState, signInStateSend }: TSignInFormProps) => {
 		>
 			<input
 				className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
-				disabled={signInState === "tryingSignIn"}
+				disabled={signInState.value === "tryingSignIn"}
 				name="username"
 				placeholder="username (not email)"
 				ref={register({ required: true })}
 			/>
 			<input
 				className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
-				disabled={signInState === "tryingSignIn"}
+				disabled={signInState.value === "tryingSignIn"}
 				name="password"
 				placeholder="password"
 				ref={register({ required: true })}
@@ -52,13 +56,14 @@ const SignInForm = ({ signInState, signInStateSend }: TSignInFormProps) => {
 			/>
 
 			{/* TODO: feed the actual error in here */}
-			{signInState === "error" && (
+			{signInState.value === "error" && (
 				<div className="p-2 my-2 text-sm text-red-700 border-2 border-red-700">
 					ERROR
 				</div>
 			)}
 
-			{(signInState === "notSignedIn" || signInState === "error") && (
+			{(signInState.value === "notSignedIn" ||
+				signInState.value === "error") && (
 				<button
 					className="h-10 px-2 py-1 my-2 text-gray-600 border-2 border-gray-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
 					style={{ boxShadow: "3px 5px rgba(75, 85, 99)" }}
@@ -68,7 +73,7 @@ const SignInForm = ({ signInState, signInStateSend }: TSignInFormProps) => {
 				</button>
 			)}
 
-			{signInState === "tryingSignIn" && (
+			{signInState.value === "tryingSignIn" && (
 				<button
 					className="h-10 px-2 py-1 my-2 text-yellow-600 border-2 border-yellow-600 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
 					disabled={true}

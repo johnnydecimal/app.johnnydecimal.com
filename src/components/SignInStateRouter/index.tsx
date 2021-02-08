@@ -11,6 +11,7 @@ import AppHeader from "components/Layout/AppHeader";
 import SignInForm from "components/SignIn/SignInForm";
 import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
+import Account from "components/JDApp/Account";
 import App from "App";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -42,6 +43,8 @@ const SignInStateRouter = () => {
 		signInStateMachine
 	);
 	const location = useLocation();
+	console.debug("SignInStateRouter: signInState:", signInState);
+	console.debug("SignInStateRouter: typeof signInState:", typeof signInState);
 
 	switch (true) {
 		case signInState.matches("init"):
@@ -60,13 +63,16 @@ const SignInStateRouter = () => {
 							<AppHeader title="The app" />
 							<div>This is the app now</div>
 							<Link to="/account">Your account</Link>
+							<br />
+							<Link to="/ojlkjdflkjla">A 404</Link>
 						</>
 					);
 				case "/account":
 					return (
 						<>
 							<AppHeader title="Account" />
-							<div>Your account page</div>
+							<Account signInStateSend={signInStateSend} />
+							<Link to="/">Home</Link>
 						</>
 					);
 				default:
@@ -85,6 +91,8 @@ const SignInStateRouter = () => {
 						<>
 							<AppHeader title="Sign in" />
 							<SignInForm
+								// TODO: fix me up
+								// @ts-ignore
 								signInState={signInState}
 								signInStateSend={signInStateSend}
 							/>
@@ -127,7 +135,12 @@ const SignInStateRouter = () => {
 		 * saw 404s when signing out, but now this captures those little edge cases.
 		 */
 		default:
-			return <div>doing a network thing ... standby one</div>;
+			return (
+				<>
+					<AppHeader title="Standby one..." />
+					<div>Standby while we do a network thing...</div>
+				</>
+			);
 	}
 };
 
