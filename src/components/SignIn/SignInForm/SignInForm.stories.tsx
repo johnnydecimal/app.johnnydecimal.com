@@ -14,14 +14,41 @@ const Template: Story<ComponentProps<typeof SignInForm>> = (args) => (
 
 export const Start = Template.bind({});
 Start.args = {
-	signInState: { value: "notSignedIn" },
+	signInState: {
+		context: {
+			error: undefined,
+		},
+		value: "notSignedIn",
+	},
 };
 export const TryingSignIn = Template.bind({});
 TryingSignIn.args = {
-	signInState: { value: "tryingSignIn" },
+	signInState: {
+		context: {
+			error: undefined,
+		},
+		value: "tryingSignIn",
+	},
 };
 export const Failed = Template.bind({});
 Failed.args = {
-	signInState: { value: "error" },
-	// userbaseError: "Sign in failed. Try again.",
+	signInState: {
+		context: {
+			error: {
+				message: "Username or password mismatch.",
+			},
+		},
+		value: "notSignedIn",
+	},
+};
+export const TryingSignInAfterError = Template.bind({});
+TryingSignInAfterError.args = {
+	signInState: {
+		context: {
+			error: {
+				message: "Username or password mismatch.",
+			},
+		},
+		value: "tryingSignIn",
+	},
 };

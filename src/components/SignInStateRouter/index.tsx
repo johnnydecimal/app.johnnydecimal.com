@@ -84,7 +84,8 @@ const SignInStateRouter = () => {
 					);
 			}
 
-		case signInState.matches("notSignedIn"):
+		// case signInState.matches("notSignedIn"):
+		case ["notSignedIn", "tryingSignIn"].some(signInState.matches):
 			switch (location.pathname) {
 				case "/":
 					return (
