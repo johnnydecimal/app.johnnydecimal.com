@@ -20,8 +20,8 @@ interface ILayoutAppWrapper {
  */
 const LayoutAppWrapper = ({ children }: ILayoutAppWrapper) => {
 	return (
-		<div className="max-w-4xl mx-auto mt-2 bg-yellow-100 font-jdcode">
-			{children}
+		<div className="mx-2">
+			<div className="max-w-4xl mx-auto mt-2 font-jdcode">{children}</div>
 		</div>
 	);
 };

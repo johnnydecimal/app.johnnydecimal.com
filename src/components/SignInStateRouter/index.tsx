@@ -2,7 +2,7 @@
 
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useMachine } from "@xstate/react";
-import { Router, RouteComponentProps } from "@reach/router";
+import { Router, RouteComponentProps, useLocation } from "@reach/router";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import signInStateMachine from "./signInState.machine";
@@ -12,6 +12,7 @@ import WaitOne from "components/WaitOne";
 import LayoutAppWrapper from "components/Layout/AppWrapper";
 import AppHeader from "components/Layout/AppHeader";
 import SignInForm from "components/SignIn/SignInForm";
+import FourOhFour from "components/FourOhFour";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -41,24 +42,50 @@ const SignInStateRouter = () => {
 	const [signInState, signInStateSend, signInStateService] = useMachine(
 		signInStateMachine
 	);
+	const location = useLocation();
 
 	switch (true) {
 		case signInState.matches("init"):
-			// TODO: Pretty this 'Initialising' view up
-			return <div className="text-3xl text-center text-red-600">INIT</div>;
+			return (
+				<>
+					<AppHeader title="Initialising..." />
+					<WaitOne />
+				</>
+			);
 
 		case signInState.matches("signedIn"):
 			// return <div>Signed in</div>;
 			return <WaitOne />;
 
 		case signInState.matches("notSignedIn"):
-			console.debug("signInState: notSignedIn");
-			return (
-				<LayoutAppWrapper>
-					<AppHeader title="Sign in" />
-					<SignInForm />
-				</LayoutAppWrapper>
-			);
+			switch (location.pathname) {
+				case "/":
+					return (
+						<>
+							<AppHeader title="Sign in" />
+							<SignInForm
+								signInState={signInState.value}
+								signInStateSend={signInStateSend}
+							/>
+						</>
+					);
+
+				case "/signup":
+					return (
+						<>
+							<AppHeader title="Sign up" />
+							<SignUpForm />
+						</>
+					);
+
+				default:
+					return (
+						<>
+							<AppHeader title="404 :-(" />
+							<FourOhFour />
+						</>
+					);
+			}
 
 		/* <SignInForm path="/" signInStateService={signInStateService} />
 			<SignUpForm path="signup" signInStateService={signInStateService} />
