@@ -24,6 +24,17 @@ export interface SignInSchema {
 	};
 }
 
+// This isn't used in this file but elsewhere where we're testing which state
+// the machine is in.
+export type TSignInStates =
+	| "init"
+	| "notSignedIn"
+	| "tryingSignIn"
+	| "signedIn"
+	| "tryingSignUp"
+	| "tryingSignOut"
+	| "error";
+
 // prettier-ignore
 export type SignInEvent =
 	| { type: "TRY_SIGNIN", formData: any }

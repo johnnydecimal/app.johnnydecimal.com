@@ -3,7 +3,7 @@ import { useMachine } from "@xstate/react";
 import { Link, useLocation } from "@reach/router";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import signInStateMachine from "./signInState.machine";
+import signInStateMachine, { TSignInStates } from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import WaitOne from "components/WaitOne";
@@ -13,6 +13,7 @@ import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
 import Account from "components/JDApp/Account";
 import App from "App";
+import Menu from "components/JDApp/Menu";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -50,7 +51,7 @@ const SignInStateRouter = () => {
 		case signInState.matches("init"):
 			return (
 				<>
-					<AppHeader title="Initialising..." />
+					<AppHeader signInState={signInState} title="Initialising..." />
 					<WaitOne />
 				</>
 			);
@@ -60,25 +61,29 @@ const SignInStateRouter = () => {
 				case "/":
 					return (
 						<>
-							<AppHeader title="The app" />
-							<div>This is the app now</div>
-							<Link to="/account">Your account</Link>
-							<br />
-							<Link to="/ojlkjdflkjla">A 404</Link>
+							<AppHeader signInState={signInState} title="The app" />
+							<div className="p-2 mt-4">This is the app now</div>
 						</>
 					);
 				case "/account":
 					return (
 						<>
-							<AppHeader title="Account" />
+							<AppHeader signInState={signInState} title="Account" />
 							<Account signInStateSend={signInStateSend} />
 							<Link to="/">Home</Link>
+						</>
+					);
+				case "/menu":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Menu" />
+							<Menu signInStateSend={signInStateSend} />
 						</>
 					);
 				default:
 					return (
 						<>
-							<AppHeader title="404 :-(" />
+							<AppHeader signInState={signInState} title="404 :-(" />
 							<FourOhFour signInState={signInState} />
 						</>
 					);
@@ -90,7 +95,7 @@ const SignInStateRouter = () => {
 				case "/":
 					return (
 						<>
-							<AppHeader title="Sign in" />
+							<AppHeader signInState={signInState} title="Sign in" />
 							<SignInForm
 								// TODO: fix me up
 								// @ts-ignore
@@ -103,7 +108,7 @@ const SignInStateRouter = () => {
 				case "/signup":
 					return (
 						<>
-							<AppHeader title="Sign up" />
+							<AppHeader signInState={signInState} title="Sign up" />
 							{/* <SignUpForm /> */}
 						</>
 					);
@@ -111,7 +116,7 @@ const SignInStateRouter = () => {
 				default:
 					return (
 						<>
-							<AppHeader title="404 :-(" />
+							<AppHeader signInState={signInState} title="404 :-(" />
 							<FourOhFour />
 						</>
 					);
@@ -138,7 +143,7 @@ const SignInStateRouter = () => {
 		default:
 			return (
 				<>
-					<AppHeader title="Standby one..." />
+					<AppHeader signInState={signInState} title="Standby one..." />
 					<div>Standby while we do a network thing...</div>
 				</>
 			);
