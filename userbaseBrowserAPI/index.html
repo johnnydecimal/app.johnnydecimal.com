@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>J•D/Userbase local testing</title>
+		<script
+			type="text/javascript"
+			src="https://sdk.userbase.com/2/userbase.js"
+		></script>
+	</head>
+
+	<body>
+		<!-- application code -->
+		<script type="text/javascript">
+			// const getDatabases = userbase.getDatabases()
+			// 	.then(databases => console.debug('databases:', databases))
+			// 	.catch(e => console.error('databases:', e))
+			userbase
+				.init({
+					appId: "37c7462e-f79c-4ef3-bdb0-55968a34d572",
+				})
+				.then((session) => {
+					console.debug("userbase.init response (session):", session);
+					userbase
+						.signIn({
+							username: "john",
+							password: "testing123",
+							rememberMe: "local",
+						})
+						.then((user) => {
+							// We are logged in here
+							// userbase.getDatabases()
+							// 	.then(databases => console.debug('databases:', databases))
+							// 	.catch(e => console.error('userbase.getDatabases:', e));
+							// console.debug(user);
+							userbase
+								.openDatabase({
+									databaseName: "test-2020-09-08-14-16",
+									changeHandler: (items) =>
+										console.debug("database changed, is now:", items),
+								})
+								.then()
+								.catch();
+						})
+						.catch((e) => console.error("userbase.signIn:", e));
+				})
+				.catch();
+		</script>
+	</body>
+</html>

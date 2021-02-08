@@ -1,14 +1,18 @@
-// @ts-nocheck
-
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useMachine } from "@xstate/react";
-import { Router, RouteComponentProps } from "@reach/router";
+import { Link, useLocation } from "@reach/router";
 
 // === Internal logic   ===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import signInStateMachine from "./signInState.machine";
 
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import WaitOne from "components/WaitOne";
+import AppHeader from "components/Layout/AppHeader";
+import SignInForm from "components/SignIn/SignInForm";
+import SignUpForm from "components/SignIn/SignUpForm";
+import FourOhFour from "components/FourOhFour";
+import Account from "components/JDApp/Account";
+import App from "App";
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 
@@ -38,25 +42,84 @@ const SignInStateRouter = () => {
 	const [signInState, signInStateSend, signInStateService] = useMachine(
 		signInStateMachine
 	);
+	const location = useLocation();
+	console.debug("SignInStateRouter: signInState:", signInState);
+	console.debug("SignInStateRouter: typeof signInState:", typeof signInState);
 
 	switch (true) {
 		case signInState.matches("init"):
-			// TODO: Pretty this 'Initialising' view up
-			return <div className="text-3xl text-center text-red-600">INIT</div>;
+			return (
+				<>
+					<AppHeader title="Initialising..." />
+					<WaitOne />
+				</>
+			);
 
 		case signInState.matches("signedIn"):
-			// return <div>Signed in</div>;
-			return <WaitOne />;
+			switch (location.pathname) {
+				case "/":
+					return (
+						<>
+							<AppHeader title="The app" />
+							<div>This is the app now</div>
+							<Link to="/account">Your account</Link>
+							<br />
+							<Link to="/ojlkjdflkjla">A 404</Link>
+						</>
+					);
+				case "/account":
+					return (
+						<>
+							<AppHeader title="Account" />
+							<Account signInStateSend={signInStateSend} />
+							<Link to="/">Home</Link>
+						</>
+					);
+				default:
+					return (
+						<>
+							<AppHeader title="404 :-(" />
+							<FourOhFour signInState={signInState} />
+						</>
+					);
+			}
 
-		case signInState.matches("notSignedIn"):
-			return (
-				<WaitOne />
-				// <Router>
-				// 	<SignInForm path="/" signInStateService={signInStateService} />
-				// 	<SignUpForm path="signup" signInStateService={signInStateService} />
-				// 	<FourOhFour default={true} signInState={signInState} />
-				// </Router>
-			);
+		// case signInState.matches("notSignedIn"):
+		case ["notSignedIn", "tryingSignIn"].some(signInState.matches):
+			switch (location.pathname) {
+				case "/":
+					return (
+						<>
+							<AppHeader title="Sign in" />
+							<SignInForm
+								// TODO: fix me up
+								// @ts-ignore
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
+						</>
+					);
+
+				case "/signup":
+					return (
+						<>
+							<AppHeader title="Sign up" />
+							{/* <SignUpForm /> */}
+						</>
+					);
+
+				default:
+					return (
+						<>
+							<AppHeader title="404 :-(" />
+							<FourOhFour />
+						</>
+					);
+			}
+
+		/* <SignInForm path="/" signInStateService={signInStateService} />
+			<SignUpForm path="signup" signInStateService={signInStateService} />
+			<FourOhFour default={true} signInState={signInState} /> */
 
 		case signInState.matches("error"):
 			// TODO: You ended up here once. No idea why. Fix.
@@ -73,7 +136,12 @@ const SignInStateRouter = () => {
 		 * saw 404s when signing out, but now this captures those little edge cases.
 		 */
 		default:
-			return <div>doing a network thing ... standby one</div>;
+			return (
+				<>
+					<AppHeader title="Standby one..." />
+					<div>Standby while we do a network thing...</div>
+				</>
+			);
 	}
 };
 

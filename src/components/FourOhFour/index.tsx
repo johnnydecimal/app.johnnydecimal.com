@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 // import { RouteComponentProps } from "@reach/router";
 
 export type FourOhFourProps = {
-	default: boolean;
 	signInState?: object;
 };
 
