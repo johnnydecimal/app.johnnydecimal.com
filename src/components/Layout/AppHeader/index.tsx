@@ -6,7 +6,7 @@ import { SignInContext } from "components/SignInStateRouter/signInState.machine"
 import { TSignInStates } from "components/SignInStateRouter/signInState.machine";
 import { StateValue } from "xstate/lib/types";
 
-export interface IAppHeaderProps {
+interface AppHeaderProps {
 	signInState: {
 		context?: SignInContext;
 		value: TSignInStates | StateValue;
@@ -15,7 +15,7 @@ export interface IAppHeaderProps {
 }
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const AppHeader = ({ signInState, title }: IAppHeaderProps) => {
+const AppHeader = ({ signInState, title }: AppHeaderProps) => {
 	switch (signInState.value) {
 		case "notSignedIn" || "try":
 			break;

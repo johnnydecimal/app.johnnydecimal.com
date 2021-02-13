@@ -1,14 +1,16 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { useForm } from "react-hook-form";
-import { StateValue } from "xstate";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-interface ISignUpFormInputs {
+import { SignInEvent } from "components/SignInStateRouter/signInState.machine";
+import { StateValue } from "xstate";
+
+interface SignUpFormInputs {
 	password: string;
 	username: string;
 }
 
-interface ISignUpState {
+interface SignUpState {
 	context?: {
 		error?: {
 			message: string;
@@ -17,20 +19,15 @@ interface ISignUpState {
 	value: StateValue;
 }
 
-interface ISignUpFormProps {
-	signInState: ISignUpState;
-	signInStateSend: (args: any) => void; // TODO: improve this typing
+interface SignUpFormProps {
+	signInState: SignUpState;
+	signInStateSend: (args: SignInEvent) => void;
 }
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const SignUpForm = ({ signInState, signInStateSend }: ISignUpFormProps) => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		errors,
-	} = useForm<ISignUpFormInputs>();
-	const onSubmit = (data: ISignUpFormInputs) => console.log(data, errors);
+const SignUpForm = ({ signInState, signInStateSend }: SignUpFormProps) => {
+	const { register, handleSubmit, watch, errors } = useForm<SignUpFormInputs>();
+	const onSubmit = (data: SignUpFormInputs) => console.log(data, errors);
 
 	return (
 		// "handleSubmit" will validate your inputs before invoking "onSubmit"

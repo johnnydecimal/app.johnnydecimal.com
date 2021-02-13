@@ -4,12 +4,14 @@ import { Link } from "@reach/router";
 import { StateValue } from "xstate";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-interface ISignInFormInputs {
+import { SignInEvent } from "components/SignInStateRouter/signInState.machine";
+
+interface SignInFormInputs {
 	password: string;
 	username: string;
 }
 
-interface ISignInState {
+interface SignInState {
 	context?: {
 		error?: {
 			message: string;
@@ -18,21 +20,16 @@ interface ISignInState {
 	value: StateValue;
 }
 
-interface ISignInFormProps {
-	signInState: ISignInState;
-	signInStateSend: (args: any) => void; // TODO: improve this typing
+interface SignInFormProps {
+	signInState: SignInState;
+	signInStateSend: (args: SignInEvent) => void;
 }
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const SignInForm = ({ signInState, signInStateSend }: ISignInFormProps) => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		errors,
-	} = useForm<ISignInFormInputs>();
+const SignInForm = ({ signInState, signInStateSend }: SignInFormProps) => {
+	const { register, handleSubmit, watch, errors } = useForm<SignInFormInputs>();
 
-	const onSubmit = (formData: ISignInFormInputs) => {
+	const onSubmit = (formData: SignInFormInputs) => {
 		signInStateSend({
 			type: "TRY_SIGNIN",
 			formData,

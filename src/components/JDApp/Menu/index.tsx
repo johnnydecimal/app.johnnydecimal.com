@@ -1,6 +1,7 @@
 import { Link } from "@reach/router";
 import {
 	SignInContext,
+	SignInEvent,
 	TSignInStates,
 } from "components/SignInStateRouter/signInState.machine";
 import { StateValue } from "xstate";
@@ -10,7 +11,7 @@ interface MenuProps {
 		context?: SignInContext;
 		value: TSignInStates | StateValue;
 	};
-	signInStateSend: (args: any) => void;
+	signInStateSend: (args: SignInEvent) => void;
 }
 
 const Menu = ({ signInState, signInStateSend }: MenuProps) => (

@@ -39,9 +39,9 @@ export type TSignInStates =
 export type SignInEvent =
 	| { type: "TRY_SIGNIN", formData: any }
 	| { type: "TRY_SIGNUP", formData: any }
-	| { type: "SIGNED_IN", formData: any }
-	| { type: "NOT_SIGNED_IN", formData: any }
-	| { type: "TRY_SIGNOUT", formData: any };
+	| { type: "SIGNED_IN", formData?: any }
+	| { type: "NOT_SIGNED_IN", formData?: any }
+	| { type: "TRY_SIGNOUT", formData?: any };
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const signInStateMachine = Machine<SignInContext, SignInSchema, SignInEvent>({

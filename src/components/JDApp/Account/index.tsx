@@ -1,8 +1,12 @@
-interface IAccountProps {
-	signInStateSend: (args: any) => void;
+// === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+import { SignInEvent } from "components/SignInStateRouter/signInState.machine";
+
+interface AccountProps {
+	signInStateSend: (args: SignInEvent) => void;
 }
 
-export default function Account({ signInStateSend }: IAccountProps) {
+// === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
+export default function Account({ signInStateSend }: AccountProps) {
 	return (
 		<div>
 			<button
