@@ -109,7 +109,8 @@ const SignInForm = ({ signInState, signInStateSend }: ISignInFormProps) => {
 				</button>
 			)}
 
-			<div className="h-10 px-2 py-1 mt-8 text-indigo-600 border-2 border-indigo-600 rounded-none bg-indigo-50 w-72">
+			{/* == Sign up button ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-== */}
+			<div className="h-10 px-2 py-1 mt-8 text-center text-indigo-600 border-2 border-indigo-600 rounded-none bg-indigo-50 w-72">
 				Do you need to{" "}
 				<Link className="border-b-2 border-indigo-600" to="/signup">
 					sign up
