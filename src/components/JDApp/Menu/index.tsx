@@ -1,11 +1,21 @@
 import { Link } from "@reach/router";
+import {
+	SignInContext,
+	TSignInStates,
+} from "components/SignInStateRouter/signInState.machine";
+import { StateValue } from "xstate";
 
-interface IMenuProps {
+interface MenuProps {
+	signInState: {
+		context?: SignInContext;
+		value: TSignInStates | StateValue;
+	};
 	signInStateSend: (args: any) => void;
 }
 
-const Menu = ({ signInStateSend }: IMenuProps) => (
+const Menu = ({ signInState, signInStateSend }: MenuProps) => (
 	<div className="p-2">
+		<p>Sign in state: {signInState.value}</p>
 		<ul className="list-disc list-inside">
 			<li className="my-4">
 				<Link className="border-b-2 border-gray-800" to="/">
