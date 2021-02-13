@@ -44,6 +44,7 @@ const SignInStateRouter = () => {
 	const [signInState, signInStateSend, signInStateService] = useMachine(
 		signInStateMachine
 	);
+
 	const location = useLocation();
 	console.debug("SignInStateRouter: signInState:", signInState);
 	console.debug("SignInStateRouter: typeof signInState:", typeof signInState);
@@ -96,6 +97,16 @@ const SignInStateRouter = () => {
 							<WaitOne />
 						</>
 					);
+				case "/menu":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Menu" />
+							<Menu
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
+						</>
+					);
 				default:
 					return (
 						<>
@@ -126,7 +137,10 @@ const SignInStateRouter = () => {
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Menu" />
-							<Menu signInStateSend={signInStateSend} />
+							<Menu
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
 						</>
 					);
 				default:
