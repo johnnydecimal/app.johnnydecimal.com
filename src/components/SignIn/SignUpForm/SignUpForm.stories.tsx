@@ -15,7 +15,7 @@ const Template: Story<ComponentProps<typeof SignUpForm>> = (args) => (
 export const Start = Template.bind({});
 Start.args = {
 	signInState: {
-		value: "start",
+		value: "notSignedIn",
 	},
 };
 export const TryingSignUp = Template.bind({});
@@ -33,5 +33,16 @@ Failed.args = {
 			},
 		},
 		value: "notSignedIn",
+	},
+};
+export const TryingSignInAfterError = Template.bind({});
+TryingSignInAfterError.args = {
+	signInState: {
+		context: {
+			error: {
+				message: "Username or password mismatch.",
+			},
+		},
+		value: "tryingSignUp",
 	},
 };
