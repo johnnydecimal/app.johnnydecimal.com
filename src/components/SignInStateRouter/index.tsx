@@ -12,6 +12,7 @@ import SignInForm from "components/SignIn/SignInForm";
 import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
 import Account from "components/JDApp/Account";
+import Error from "components/Error";
 import App from "App";
 import Menu from "components/JDApp/Menu";
 import CantGetThereFromHere from "components/CantGetThereFromHere";
@@ -26,19 +27,8 @@ import CantGetThereFromHere from "components/CantGetThereFromHere";
  * The first thing we do on a page load is to determine, by way of our
  * `signInStateMachine`, which calls Userbase, whether the user is signed in.
  *
- * Depending on the machine's state, we render:
- * - An initialisation screen.
- * - If signed in, `JDApp`, which is the full, we-have-a-user-and-we-have-
- *   their-data component.
- * - If not signed in:
- *   - At `/`, show a login screen.
- *   - At `/signup/`, show a signup screen.
- *   - Anywhere else, show a 404.
- * - If the machine returns `error`, that's deeply strange. Nevertheless,
- *   handle it.
- * - The machine has other interstitial states: `trying[thing]`. In those
- *   states, handled by the `default` condition, render a 'please hold' type
- *   screen.
+ * We use switch/case to render the appropriate component depending on the
+ * current `pathname` and `signInState`.
  */
 const SignInStateRouter = () => {
 	const [signInState, signInStateSend, signInStateService] = useMachine(
@@ -46,24 +36,13 @@ const SignInStateRouter = () => {
 	);
 
 	const location = useLocation();
-	console.debug("SignInStateRouter: signInState:", signInState);
-	console.debug("SignInStateRouter: typeof signInState:", typeof signInState);
+	console.debug("🅾️ SignInStateRouter: signInState:", signInState);
 
-	switch (true) {
-		case signInState.matches("init"):
-			return (
-				<>
-					<AppHeader signInState={signInState} title="Initialising..." />
-					<WaitOne />
-				</>
-			);
-
-		// case signInState.matches("notSignedIn"):
-		case ["notSignedIn", "tryingSignIn", "tryingSignUp"].some(
-			signInState.matches
-		):
-			switch (location.pathname) {
-				case "/":
+	switch (location.pathname) {
+		// == /         ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+		case "/":
+			switch (signInState.value) {
+				case "notSignedIn":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Sign in" />
@@ -73,7 +52,38 @@ const SignInStateRouter = () => {
 							/>
 						</>
 					);
-				case "/signup":
+				case "signedIn":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Sign in" />
+							<div>This is the app now</div>
+						</>
+					);
+				case "init":
+				case "tryingSignIn":
+				case "tryingSignUp":
+				case "tryingSignOut":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Wait one..." />
+							<WaitOne />
+						</>
+					);
+				case "error":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Error" />
+							<Error />
+						</>
+					);
+				default:
+					return <div>impossible? {signInState.value}</div>;
+			}
+
+		// == /signup   ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+		case "/signup":
+			switch (signInState.value) {
+				case "notSignedIn":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Sign up" />
@@ -83,49 +93,45 @@ const SignInStateRouter = () => {
 							/>
 						</>
 					);
-				case "/account":
+				case "signedIn":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="No can do!" />
 							<CantGetThereFromHere />
 						</>
 					);
-				case "/waitone":
+				case "init":
+				case "tryingSignIn":
+				case "tryingSignUp":
+				case "tryingSignOut":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Wait one..." />
 							<WaitOne />
 						</>
 					);
-				case "/menu":
+				case "error":
 					return (
 						<>
-							<AppHeader signInState={signInState} title="Menu" />
-							<Menu
-								signInState={signInState}
-								signInStateSend={signInStateSend}
-							/>
+							<AppHeader signInState={signInState} title="Error" />
+							<Error />
 						</>
 					);
 				default:
-					return (
-						<>
-							<AppHeader signInState={signInState} title="404 :-(" />
-							<FourOhFour />
-						</>
-					);
+					return <div>impossible? {signInState.value}</div>;
 			}
 
-		case signInState.matches("signedIn"):
-			switch (location.pathname) {
-				case "/":
+		// == /account  ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+		case "/account":
+			switch (signInState.value) {
+				case "notSignedIn":
 					return (
 						<>
-							<AppHeader signInState={signInState} title="The app" />
-							<div className="p-2 mt-4">This is the app now</div>
+							<AppHeader signInState={signInState} title="No can do!" />
+							<CantGetThereFromHere />
 						</>
 					);
-				case "/account":
+				case "signedIn":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Account" />
@@ -133,7 +139,32 @@ const SignInStateRouter = () => {
 							<Link to="/">Home</Link>
 						</>
 					);
-				case "/menu":
+				case "init":
+				case "tryingSignIn":
+				case "tryingSignUp":
+				case "tryingSignOut":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Wait one..." />
+							<WaitOne />
+						</>
+					);
+				case "error":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Error" />
+							<Error />
+						</>
+					);
+				default:
+					return <div>impossible? {signInState.value}</div>;
+			}
+
+		// == /menu     ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
+		case "/menu":
+			switch (signInState.value) {
+				case "notSignedIn":
+				case "signedIn":
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Menu" />
@@ -143,36 +174,30 @@ const SignInStateRouter = () => {
 							/>
 						</>
 					);
-				default:
+				case "init":
+				case "tryingSignIn":
+				case "tryingSignUp":
+				case "tryingSignOut":
 					return (
 						<>
-							<AppHeader signInState={signInState} title="404 :-(" />
-							<FourOhFour signInState={signInState} />
+							<AppHeader signInState={signInState} title="Wait one..." />
+							<WaitOne />
 						</>
 					);
+				case "error":
+					return (
+						<>
+							<AppHeader signInState={signInState} title="Error" />
+							<Error />
+						</>
+					);
+				default:
+					return <div>impossible? {signInState.value}</div>;
 			}
 
-		case signInState.matches("error"):
-			// TODO: You ended up here once. No idea why. Fix.
-			return (
-				<div className="m-12 text-6xl text-red-600">
-					ERROR! End-of-state. Done. Fubar.
-				</div>
-			);
-
-		/**
-		 * All other conditions are captured here -- the `trying...` states and
-		 * anything else not specifically handled above. This works out to be a much
-		 * nicer way of handling this -- when this was an `if...then` situation you
-		 * saw 404s when signing out, but now this captures those little edge cases.
-		 */
+		// == 404       ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 		default:
-			return (
-				<>
-					<AppHeader signInState={signInState} title="Standby one..." />
-					<div>Standby while we do a network thing...</div>
-				</>
-			);
+			return <FourOhFour />;
 	}
 };
 
