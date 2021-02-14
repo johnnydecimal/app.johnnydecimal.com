@@ -1,12 +1,13 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-import { Link, useLocation } from "@reach/router";
+import { Link, RouteComponentProps, useLocation } from "@reach/router";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { SignInContext } from "components/SignInStateRouter/signInState.machine";
 import { TSignInStates } from "components/SignInStateRouter/signInState.machine";
 import { StateValue } from "xstate/lib/types";
 
-interface AppHeaderProps {
+// Extension of RCP required for Storybook
+interface AppHeaderProps extends RouteComponentProps {
 	signInState: {
 		context?: SignInContext;
 		value: TSignInStates | StateValue;
