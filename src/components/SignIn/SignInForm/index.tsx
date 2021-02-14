@@ -36,8 +36,6 @@ const SignInForm = ({ signInState, signInStateSend }: SignInFormProps) => {
 		});
 	};
 
-	console.debug("SignInForm: signInState:", signInState);
-
 	return (
 		<form
 			className="grid justify-center grid-flow-row gap-4 mt-8 font-jdcode"
