@@ -72,7 +72,12 @@ const Email = ({ user, signInStateSend }: any) => {
 							className="p-2 text-red-600 rounded-none w-80 ring ring-inset ring-red-600 focus:outline-none"
 							defaultValue={user.email}
 							name="email"
-							onSubmit={handleSubmit(onSubmit)}
+							onKeyPress={(e) => {
+								console.debug("onKeyUp, e is:", e);
+								if (e.key === "Enter" && !e.shiftKey) {
+									handleSubmit(onSubmit)();
+								}
+							}}
 							ref={register({ required: true })}
 							type="email"
 						/>
