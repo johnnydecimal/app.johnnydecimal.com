@@ -11,7 +11,8 @@ import AppHeader from "components/Layout/AppHeader";
 import SignInForm from "components/SignIn/SignInForm";
 import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
-import Account from "components/JDApp/Account";
+// TODO: Make all imports named vs. default.
+import { Account } from "components/JDApp/Account";
 import Error from "components/Error";
 import App from "App";
 import Menu from "components/JDApp/Menu";
