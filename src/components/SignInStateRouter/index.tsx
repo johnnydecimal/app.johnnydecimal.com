@@ -135,8 +135,10 @@ const SignInStateRouter = () => {
 					return (
 						<>
 							<AppHeader signInState={signInState} title="Account" />
-							<Account signInStateSend={signInStateSend} />
-							<Link to="/">Home</Link>
+							<Account
+								signInState={signInState}
+								signInStateSend={signInStateSend}
+							/>
 						</>
 					);
 				case "init":

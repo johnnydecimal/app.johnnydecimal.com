@@ -1,3 +1,6 @@
+/*
+Commenting out this whole thing, it just interferes with Tailwind.
+
 section {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -67,3 +70,4 @@ li {
 .tip-wrapper svg path {
   fill: #1ea7fd;
 }
+*/
