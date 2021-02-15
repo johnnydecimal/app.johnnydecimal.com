@@ -20,13 +20,16 @@ interface SignInState {
 	value: StateValue;
 }
 
-interface SignInFormProps {
+export interface SignInFormProps {
 	signInState: SignInState;
 	signInStateSend: (args: SignInEvent) => void;
 }
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
-const SignInForm = ({ signInState, signInStateSend }: SignInFormProps) => {
+export const SignInForm = ({
+	signInState,
+	signInStateSend,
+}: SignInFormProps) => {
 	const { register, handleSubmit, watch, errors } = useForm<SignInFormInputs>();
 
 	const onSubmit = (formData: SignInFormInputs) => {
@@ -43,11 +46,14 @@ const SignInForm = ({ signInState, signInStateSend }: SignInFormProps) => {
 		>
 			{/* == Username input ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-== */}
 			<input
+				autoCapitalize="none"
+				autoCorrect="off"
 				className="h-10 px-2 py-1 text-gray-600 border-2 border-gray-600 rounded-none w-72 focus:text-yellow-600 focus:border-yellow-600 focus:outline-none"
 				disabled={signInState.value === "tryingSignIn"}
 				name="username"
 				placeholder="username (not email)"
 				ref={register({ required: true })}
+				type="text"
 			/>
 			{/* == Password input ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-== */}
 			<input
@@ -115,5 +121,3 @@ const SignInForm = ({ signInState, signInStateSend }: SignInFormProps) => {
 		</form>
 	);
 };
-
-export default SignInForm;

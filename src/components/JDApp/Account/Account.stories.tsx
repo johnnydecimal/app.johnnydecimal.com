@@ -18,7 +18,7 @@ UserWithEmail.args = {
 		context: {
 			user: {
 				authToken: "36fdcd08fdc89275100e85108584e7d8",
-				creationDate: "today",
+				creationDate: new Date(),
 				email: "fred@fred.co",
 				paymentsMode: "disabled",
 				userId: "guid",
@@ -36,7 +36,7 @@ UserWithoutEmail.args = {
 		context: {
 			user: {
 				authToken: "36fdcd08fdc89275100e85108584e7d8",
-				creationDate: "today",
+				creationDate: new Date(),
 				email: undefined,
 				paymentsMode: "disabled",
 				userId: "guid",

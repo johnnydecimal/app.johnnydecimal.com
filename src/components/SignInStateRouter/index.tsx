@@ -8,7 +8,7 @@ import signInStateMachine, { TSignInStates } from "./signInState.machine";
 // === Internal components  ===-===-===-===-===-===-===-===-===-===-===-===-===
 import WaitOne from "components/WaitOne";
 import AppHeader from "components/Layout/AppHeader";
-import SignInForm from "components/SignIn/SignInForm";
+import { SignInForm } from "components/SignIn/SignInForm";
 import SignUpForm from "components/SignIn/SignUpForm";
 import FourOhFour from "components/FourOhFour";
 // TODO: Make all imports named vs. default.

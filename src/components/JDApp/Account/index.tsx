@@ -4,14 +4,13 @@ import { StateValue } from "xstate";
 import userbase, { UserResult } from "userbase-js";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { User } from "types/User";
 
 interface SignInState {
 	context: {
 		error?: {
 			message: string;
 		};
-		user: User;
+		user: UserResult | undefined;
 	};
 	value: StateValue;
 }
@@ -126,28 +125,38 @@ export const Account = ({ signInState, signInStateSend }: AccountProps) => {
 
 	const { user } = signInState.context;
 
-	return (
-		<div className="px-2 mt-8 font-jdcode">
-			<div>Hey there, {user.username}.</div>
+	// TS-happiness
+	if (!user) {
+		throw new Error(
+			`There must be a user here, because we can only get here from the
+			signedIn state. But hey, figure out some error codes, anything could
+			happen. Make sure an end-user can mail them to you so you know exactly
+			what occurred.`
+		);
+	} else {
+		return (
+			<div className="px-2 mt-8 font-jdcode">
+				<div>Hey there, {user.username}.</div>
 
-			<h2 className="max-w-xs my-2 border-b-2 border-gray-800">Email</h2>
-			<Email
-				signInStateSend={signInStateSend}
-				user={signInState.context.user}
-			/>
+				<h2 className="max-w-xs my-2 border-b-2 border-gray-800">Email</h2>
+				<Email
+					signInStateSend={signInStateSend}
+					user={signInState.context.user}
+				/>
 
-			{/* Sign out button */}
-			<div className="mt-2">
-				<button
-					onClick={() => {
-						signInStateSend({
-							type: "TRY_SIGNOUT",
-						});
-					}}
-				>
-					Sign out
-				</button>
+				{/* Sign out button */}
+				<div className="mt-2">
+					<button
+						onClick={() => {
+							signInStateSend({
+								type: "TRY_SIGNOUT",
+							});
+						}}
+					>
+						Sign out
+					</button>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 };

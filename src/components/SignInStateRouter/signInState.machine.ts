@@ -1,6 +1,6 @@
 // === External ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 import { Machine, assign } from "xstate";
-import userbase from "userbase-js";
+import userbase, { UserResult } from "userbase-js";
 import { navigate } from "@reach/router";
 
 // === Types    ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
@@ -9,7 +9,7 @@ import { User } from "../../@types/User";
 export interface SignInContext {
 	error: any | undefined;
 	formData: any | undefined;
-	user: User | undefined | any;
+	user: UserResult | undefined;
 }
 
 export interface SignInSchema {
@@ -170,7 +170,12 @@ const signInStateMachine = Machine<SignInContext, SignInSchema, SignInEvent>({
 								console.debug("📧 updatingEmail, event:", event),
 							assign({
 								user: (context, event) => {
-									return { ...context.user, email: event.data.formData.email };
+									if (context.user) {
+										return {
+											...context.user,
+											email: event.data.formData.email,
+										};
+									}
 								},
 							}),
 						],

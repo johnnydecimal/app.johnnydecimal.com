@@ -42,11 +42,14 @@ const SignUpForm = ({ signInState, signInStateSend }: SignUpFormProps) => {
 		>
 			{/* == Username input ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-== */}
 			<input
+				autoCapitalize="none"
+				autoCorrect="off"
 				className="h-10 px-2 py-1 text-gray-600 border-2 border-gray-600 rounded-none w-72 focus:text-green-600 focus:border-green-600 focus:outline-none"
 				disabled={signInState.value === "tryingSignUp"}
 				name="username"
 				placeholder="username (not email)"
 				ref={register({ required: true })}
+				type="text"
 			/>
 			{/* == Password input ==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-== */}
 			<input
