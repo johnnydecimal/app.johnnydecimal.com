@@ -17,8 +17,9 @@ export interface SignInSchema {
 		init: {};
 		notSignedIn: {};
 		tryingSignIn: {};
-		signedIn: {};
 		tryingSignUp: {};
+		signedIn: {};
+		updatingEmail: {};
 		tryingSignOut: {};
 		error: {};
 	};
@@ -30,8 +31,9 @@ export type TSignInStates =
 	| "init"
 	| "notSignedIn"
 	| "tryingSignIn"
-	| "signedIn"
 	| "tryingSignUp"
+	| "signedIn"
+	| "updatingEmail"
 	| "tryingSignOut"
 	| "error";
 
@@ -41,12 +43,13 @@ export type SignInEvent =
 	| { type: "TRY_SIGNUP", formData: any }
 	| { type: "SIGNED_IN", formData?: any }
 	| { type: "NOT_SIGNED_IN", formData?: any }
+	| { type: "UPDATE_EMAIL", formData: any }
 	| { type: "TRY_SIGNOUT", formData?: any };
 
 // === Main ===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===-===
 const signInStateMachine = Machine<SignInContext, SignInSchema, SignInEvent>({
 	strict: true,
-	id: "newSignInState",
+	id: "signInState",
 	initial: "init",
 
 	context: {
@@ -146,6 +149,45 @@ const signInStateMachine = Machine<SignInContext, SignInSchema, SignInEvent>({
 		signedIn: {
 			on: {
 				TRY_SIGNOUT: "tryingSignOut",
+				UPDATE_EMAIL: "updatingEmail",
+			},
+		},
+		updatingEmail: {
+			invoke: {
+				id: "updatingEmail",
+				src: (_context, event) =>
+					userbase
+						.updateUser({
+							email: event.formData.email,
+						})
+						.then(() => event),
+				onDone: [
+					{
+						target: "signedIn",
+						// cond: (_context, event) => Boolean(event.data.user),
+						actions: [
+							(_context, event) =>
+								console.debug("📧 updatingEmail, event:", event),
+							assign({
+								user: (context, event) => {
+									return { ...context.user, email: event.data.formData.email };
+								},
+							}),
+						],
+					},
+					// {
+					// 	target: "notSignedIn",
+					// 	actions: assign({
+					// 		error: (_context, event) => event.data,
+					// 	}),
+					// },
+				],
+				onError: {
+					target: "error",
+					actions: assign({
+						error: (_context, event) => event.data,
+					}),
+				},
 			},
 		},
 		tryingSignUp: {

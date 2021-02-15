@@ -44,15 +44,6 @@ const Email = ({ user, signInStateSend }: any) => {
 			type: "UPDATE_EMAIL",
 			formData,
 		});
-		// userbase
-		// 	.updateUser({
-		// 		email: formData.email,
-		// 	})
-		// 	.then(() => {
-		// 		console.debug("🎆 worked!");
-		// 		setUpdating(false);
-		// 	})
-		// 	.catch((e) => console.error(e));
 	};
 
 	if (user.email) {
@@ -81,6 +72,7 @@ const Email = ({ user, signInStateSend }: any) => {
 							className="p-2 text-red-600 rounded-none w-80 ring ring-inset ring-red-600 focus:outline-none"
 							defaultValue={user.email}
 							name="email"
+							onSubmit={handleSubmit(onSubmit)}
 							ref={register({ required: true })}
 							type="email"
 						/>
@@ -98,6 +90,7 @@ const Email = ({ user, signInStateSend }: any) => {
 								name="update"
 								onClick={handleSubmit(onSubmit)}
 								ref={register}
+								type="submit"
 							>
 								UPDATE
 							</button>
